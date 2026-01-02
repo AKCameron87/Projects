@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Pokémon Deck Battle</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<h1>Pokémon Deck Battle</h1>
+
+<button id="theme-toggle">🌙 Dark Mode</button>
+
+<p class="subtitle">
+    Choose a stat, deal 5 random Pokémon to you and the computer, and see who wins best of 5.
+</p>
+
+<div class="controls">
+    <label for="stat-select">Battle stat:</label>
+    <select id="stat-select">
+        <option value="hp">HP</option>
+        <option value="attack">Attack</option>
+        <option value="defense">Defense</option>
+        <option value="special-attack">Sp. Attack</option>
+        <option value="special-defense">Sp. Defense</option>
+        <option value="speed">Speed</option>
+    </select>
+
+    <button id="deal-button">🎲 Deal Decks & Battle</button>
+</div>
+
+<div id="message"></div>
+<div id="loader" class="hidden"></div>
+
+<div id="battlefield">
+    <div class="player-field">
+        <h2>You</h2>
+        <div id="player-deck" class="deck"></div>
+    </div>
+
+    <div class="player-field">
+        <h2>Computer</h2>
+        <div id="computer-deck" class="deck"></div>
+    </div>
+</div>
+
+<div id="results">
+    <h2>Battle Results</h2>
+    <ul id="round-results"></ul>
+    <p id="final-result"></p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
