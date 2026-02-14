@@ -1,0 +1,55 @@
+.app-container {
+  min-height: 100vh;
+  background-color: #0f172a;
+  color: #e2e8f0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.app-header {
+  background-color: #1e293b;
+  padding: 1.25rem 2rem;
+  border-bottom: 2px solid #22d3ee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  .header-logo {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #22d3ee;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  p {
+    margin: 0.2rem 0 0;
+    font-size: 0.85rem;
+    color: #94a3b8;
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.version-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.6rem;
+  background: #334155;
+  color: #64748b;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+main {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}

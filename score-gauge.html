@@ -1,0 +1,27 @@
+<div class="gauge-container">
+  <svg viewBox="0 0 120 120" class="gauge-svg">
+    <!-- Background circle -->
+    <circle
+      cx="60" cy="60" r="54"
+      fill="none"
+      stroke="#334155"
+      stroke-width="8"
+    />
+    <!-- Progress arc -->
+    <circle
+      cx="60" cy="60" r="54"
+      fill="none"
+      [attr.stroke]="strokeColor"
+      stroke-width="8"
+      stroke-linecap="round"
+      [attr.stroke-dasharray]="circumference"
+      [attr.stroke-dashoffset]="strokeDashoffset"
+      class="progress-ring"
+      transform="rotate(-90 60 60)"
+    />
+  </svg>
+  <div class="gauge-text">
+    <span class="gauge-score" [class]="scoreClass">{{ score }}%</span>
+    <span class="gauge-label">{{ scoreLabel }}</span>
+  </div>
+</div>

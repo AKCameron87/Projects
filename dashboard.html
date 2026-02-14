@@ -1,0 +1,177 @@
+<!-- Celebration Overlay -->
+@if (showCelebration) {
+  <div class="celebration-overlay">
+    <div class="celebration-content">
+      <span class="celebration-icon">🎉</span>
+      <h2>Perfect Score!</h2>
+      <p>You've completed every security task. Your security posture is excellent!</p>
+    </div>
+  </div>
+}
+
+<!-- Reset Confirmation Modal -->
+@if (showResetConfirm) {
+  <div class="modal-overlay" (click)="cancelReset()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <h3>Reset All Progress?</h3>
+      <p>This will uncheck all items and clear your saved progress. This cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" (click)="cancelReset()">Cancel</button>
+        <button class="modal-btn danger" (click)="resetAll()">Reset Everything</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Overall Progress -->
+<section class="progress-section">
+  <div class="progress-layout">
+    <app-score-gauge [score]="overallProgress"></app-score-gauge>
+    <div class="progress-info">
+      <h2>Security Score</h2>
+      <p class="progress-label">{{ getScoreMessage() }}</p>
+      <div class="progress-stats">
+        <div class="stat">
+          <span class="stat-value">{{ completedCount }}</span>
+          <span class="stat-label">Completed</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">{{ remainingCount }}</span>
+          <span class="stat-label">Remaining</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value high-risk-count">{{ highRiskRemaining }}</span>
+          <span class="stat-label">High Risk Left</span>
+        </div>
+      </div>
+      <div class="progress-actions">
+        <button class="export-btn" (click)="goToReport()">
+          📄 Generate Report
+        </button>
+        <button class="reset-btn" (click)="confirmReset()">
+          🔄 Reset Progress
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Wins -->
+@if (hasQuickWins) {
+  <section class="quick-wins">
+    <div class="quick-wins-header">
+      <h2>🎯 Priority Actions</h2>
+      <p>High-risk items to tackle first</p>
+    </div>
+    <div class="quick-wins-list">
+      @for (item of quickWins; track item.id) {
+        <div class="quick-win-card" [class.completed]="item.completed">
+          <div class="quick-win-left">
+            <button
+              class="qw-checkbox"
+              [class.checked]="item.completed"
+              (click)="onItemToggled(item.id)"
+            >
+              @if (item.completed) {
+                <span>✓</span>
+              }
+            </button>
+            <div>
+              <h4>{{ item.title }}</h4>
+              <span class="qw-category">{{ getCategoryLabel(item.category) }}</span>
+            </div>
+          </div>
+          <span class="qw-risk">🚨 High Risk</span>
+        </div>
+      }
+    </div>
+  </section>
+}
+
+<!-- Category Progress Cards -->
+<section class="category-cards">
+  @for (category of categories; track category.type) {
+    <div
+      class="category-card"
+      [class.active]="activeFilter === category.type"
+      (click)="setFilter(category.type)"
+    >
+      <div class="category-top">
+        <span class="category-icon">{{ category.icon }}</span>
+        <span class="category-percent">{{ getCategoryProgress(category.type) }}%</span>
+      </div>
+      <h3>{{ category.label }}</h3>
+      <p class="category-desc">{{ category.description }}</p>
+      <div class="mini-progress-track">
+        <div
+          class="mini-progress-fill"
+          [style.width.%]="getCategoryProgress(category.type)"
+        ></div>
+      </div>
+      <span class="category-count">
+        {{ getCategoryCompletedCount(category.type) }} / {{ getCategoryTotalCount(category.type) }} tasks
+      </span>
+    </div>
+  }
+</section>
+
+<!-- Filter & Sort Bar -->
+<section class="filter-sort-bar">
+  <div class="filter-tabs">
+    <button
+      class="filter-tab"
+      [class.active]="activeFilter === 'all'"
+      (click)="setFilter('all')"
+    >
+      All Items ({{ checklistItems.length }})
+    </button>
+    @for (category of categories; track category.type) {
+      <button
+        class="filter-tab"
+        [class.active]="activeFilter === category.type"
+        (click)="setFilter(category.type)"
+      >
+        {{ category.icon }} {{ category.label }}
+      </button>
+    }
+  </div>
+  <div class="sort-tabs">
+    <span class="sort-label">Sort:</span>
+    <button
+      class="sort-btn"
+      [class.active]="sortBy === 'default'"
+      (click)="setSort('default')"
+    >
+      Default
+    </button>
+    <button
+      class="sort-btn"
+      [class.active]="sortBy === 'risk'"
+      (click)="setSort('risk')"
+    >
+      Risk Level
+    </button>
+    <button
+      class="sort-btn"
+      [class.active]="sortBy === 'status'"
+      (click)="setSort('status')"
+    >
+      Status
+    </button>
+  </div>
+</section>
+
+<!-- Checklist Items -->
+<section class="checklist-section">
+  @for (item of filteredItems; track item.id) {
+    <app-checklist-item
+      [item]="item"
+      (toggled)="onItemToggled($event)"
+    ></app-checklist-item>
+  }
+</section>
+
+<!-- Footer -->
+<footer class="dashboard-footer">
+  <p>SecureCheck — Stay safe out there 🛡️</p>
+</footer>

@@ -1,0 +1,66 @@
+<div class="checklist-card" [class.completed]="item.completed" [class.expanded]="expanded">
+  <div class="card-main">
+    <button
+      class="checkbox"
+      [class.checked]="item.completed"
+      (click)="toggleComplete()"
+      [attr.aria-label]="'Mark ' + item.title + ' as ' + (item.completed ? 'incomplete' : 'complete')"
+    >
+      @if (item.completed) {
+        <span class="checkmark">✓</span>
+      }
+    </button>
+
+    <div class="card-content" (click)="toggleExpand()">
+      <div class="card-header">
+        <h3 [class.strike]="item.completed">{{ item.title }}</h3>
+        <span class="risk-badge" [class]="'risk-' + item.riskLevel">
+          {{ riskLabel }}
+        </span>
+      </div>
+      <p class="card-description">{{ item.description }}</p>
+    </div>
+
+    <button class="expand-btn" (click)="toggleExpand()" [class.rotated]="expanded">
+      ▼
+    </button>
+  </div>
+
+  @if (expanded) {
+    <div class="card-details">
+      <div class="detail-block tip-block">
+        <div class="detail-icon">💡</div>
+        <div class="detail-content">
+          <h4>Why it matters</h4>
+          <p>{{ item.tip }}</p>
+        </div>
+      </div>
+
+      <div class="detail-block howto-block">
+        <div class="detail-icon">🔧</div>
+        <div class="detail-content">
+          <h4>How to do it</h4>
+          <p>{{ item.howTo }}</p>
+        </div>
+      </div>
+
+      <div class="detail-block risk-block" [class]="'risk-level-' + item.riskLevel">
+        <div class="detail-icon">
+          @if (item.riskLevel === 'high') { 🚨 }
+          @else if (item.riskLevel === 'medium') { ⚠️ }
+          @else { ℹ️ }
+        </div>
+        <div class="detail-content">
+          <h4>Risk Level: {{ riskLabel }}</h4>
+          <p>{{ riskDescription }}</p>
+        </div>
+      </div>
+
+      @if (!item.completed) {
+        <button class="mark-done-btn" (click)="toggleComplete()">
+          ✓ Mark as Complete
+        </button>
+      }
+    </div>
+  }
+</div>
